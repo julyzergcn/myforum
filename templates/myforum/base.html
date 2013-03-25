@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}myforum/styles.css" />
+
+<div id="main">
+    <div class="main_middle">
+        <div class="forum-container clearfix">
+            
+            {% block main %}
+            {% endblock %}
+            
+        </div> <!-- .forum-container -->
+    </div> <!-- .main_middle -->
+</div> <!-- #main -->
+{% endblock %}
+
+{% block sidebar %}
+<div id="sidebar">
+    <!-- <div class="sidebar_top"></div> -->
+    <div class="sidebar_middle">
+        <div class="sidebar-nav">
+            <div id="yw2" class="portlet">
+                <div class="nav nav-list">
+                    <a href="{% url 'myforum:index' %}" class="nav-header">Forums</a>
+                </div>
+                <div class="portlet-content">
+                    <form method="POST" action="{% url 'myforum:search' %}" id="keywordSearch">
+                        {% csrf_token %}
+                        <input type="text" placeholder="Search..." class="search_box" name="kw" style="background: url('{{ STATIC_URL }}myforum/search_box_bg.png') no-repeat scroll 0 0 transparent" />
+                    </form>
+                </div> <!-- .portlet-content -->
+            </div> <!-- .portlet -->
+        
+            <div id="yw3" class="portlet">
+                <div class="portlet-content">
+                    <div class="list-view" id="yw4">
+                        <ul class="nav nav-list">
+                        {% for forum in forums %}
+                            <li><a href="{{ forum.get_absolute_url }}">{{ forum.title }}</a><span class="topics-count">{{ forum.topics_count }}</span></li>
+                        {% endfor %}
+                        </ul>
+                    </div> <!-- .list-view -->
+                </div> <!-- .portlet-content -->
+            </div> <!-- .portlet -->
+        </div> <!-- .sidebar-nav -->
+        
+        {% if user.is_authenticated %}
+        {% if current_forum %}
+        <div>
+            <a href="{% url 'myforum:new_topic' %}?f={{ current_forum.slug }}" >New Topic</a>
+        </div>
+        {% endif %}
+        {% endif %}
+        
+    </div> <!-- .sidebar_middle -->
+    <!-- <div class="sidebar_bottom"></div> -->
+</div> <!-- #sidebar -->
+
+<div class="clear"></div>
+
+{% endblock %}

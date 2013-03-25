@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="en" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}myforum/styles.css" />
+</head>
+<body style="background: url({{ STATIC_URL }}myforum/body_bg.jpg) repeat scroll center top transparent">
+
+<div id="main-wrapper">
+
+<div id="header">
+    <div class="wrapper">
+        <a href="{% url 'myforum:index' %}" id="logo">
+            <!-- <img src="/images/logo.png"> -->
+            Simple Forum
+        </a>
+        
+        <div style="float:right; margin:10px 20px 0 0; color:#fff">
+            {% if user.is_authenticated %}
+                Welcome {{ user.get_full_name|default:user.username }}. 
+                <a href="{% url 'myforum:logout' %}?next={{ request.get_full_path }}" style="color:#fff; text-decoration:underline">Logout</a>
+            {% else %}
+                <a href="{% url 'myforum:signup' %}" style="color:#fff; text-decoration:underline">Sign up</a>
+                &nbsp; or &nbsp;
+                <a href="{% url 'myforum:login' %}?next={{ request.get_full_path }}" style="color:#fff; text-decoration:underline">Login</a>
+            {% endif %}
+        </div>
+        
+        <div class="clear"></div>
+    </div><!-- .wrapper -->
+</div> <!-- #header -->
+
+<div id="content">
+{% block content %}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+</div> <!-- #content -->
+
+</div> <!-- #main-wrapper -->
+
+</body>
+</html>
