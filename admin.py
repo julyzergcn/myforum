@@ -1,5 +1,5 @@
 from django.contrib import admin
-from myforum.models import Forum, Topic, Post, UserProfile, AWS
+from myforum.models import Forum, Topic, Post, AWS
 
 class AWSAdmin(admin.ModelAdmin):
     list_display = ('key', 'value')
@@ -39,10 +39,3 @@ class TopicAdmin(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(Topic, TopicAdmin)
-
-admin.site.register(UserProfile)
-
-
-from django.contrib.sites.models import Site
-
-admin.site.unregister(Site)
